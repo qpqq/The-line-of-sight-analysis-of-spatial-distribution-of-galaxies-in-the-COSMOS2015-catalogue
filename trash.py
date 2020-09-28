@@ -754,10 +754,6 @@ def slices(start, finish, delta, step, p, w, norm, path=None):
 # main_all([0.3, 0.2, 0.1, 0.075, 0.05, 0.03], [-100, 0.7, 0.8, 0.9, 0.97], 'UV + deep 6 without COSMOS', corr=True)
 # main([0.3, 0.2, 0.1, 0.075, 0.05, 0.03], [-100, 0.7, 0.8, 0.9, 0.97], 'approx', '', 'UV + deep 3 without COSMOS', True)
 # main([0.3, 0.2, 0.1, 0.075, 0.05, 0.03], [-100, 0.7, 0.8, 0.9, 0.97], 'fluctuations', 'COSMOS 3 without others/', 'COSMOS 3 without others', True)
-# main([0.1], [-100, 0.7, 0.8, 0.9, 0.97], 'structures', 'COSMOS 3 without others/', 'COSMOS 3 without others', True)
-# main([0.1], [-100, 0.7, 0.8, 0.9, 0.97], 'structures', 'COSMOS 6 without others/', 'COSMOS 6 without others', True)
-# main([0.1], [-100, 0.7, 0.8, 0.9, 0.97], 'structures', 'UV + deep 3 without COSMOS/', 'UV + deep 3 without COSMOS', True)
-# main([0.1], [-100, 0.7, 0.8, 0.9, 0.97], 'structures', 'UV + deep 6 without COSMOS/', 'UV + deep 6 without COSMOS', True)
 # # dr = [rc(i) for i in [0.3, 0.2, 0.1, 0.075, 0.05, 0.03]]
 # main_all([200], [-100], 'UV + deep 6 without COSMOS r', corr=True)
 # z_to_r('UV + deep 6 without COSMOS')
@@ -766,5 +762,16 @@ def slices(start, finish, delta, step, p, w, norm, path=None):
 # many_w_hists([0.3, 0.2, 0.1, 0.075, 0.05, 0.03], [-100, 0.7, 0.9, 0.97], 'histograms')
 # many_r_hists([1200, 800, 400, 300, 200, 100, 50], [-100, 0.7, 0.9, 0.97], 'histograms r')
 # slices(0, 2, delta=0.2, step=0.05, w=0.9, p=2, norm=True)
-slices(1, 2, delta=0.2, step=0.05, w=0.9, p=2, norm=False)
+# slices(1, 2, delta=0.2, step=0.05, w=0.9, p=2, norm=False)
 # density_plot_data(2, 3, delta=0.1, step=0.02, w=0.9, n=50)
+
+'''
+main([0.1], [-100, 0.7, 0.9, 0.97], 'structures', '123/')
+Table 2, 3
+
+main([0.1], [-100], 'structures', 'COSMOS 3 without others/', 'COSMOS 3 without others', True)
+main([0.1], [-100], 'structures', 'COSMOS 6 without others/', 'COSMOS 6 without others', True)
+main([0.1], [-100], 'structures', 'UV + deep 3 without COSMOS/', 'UV + deep 3 without COSMOS', True)
+main([0.1], [-100], 'structures', 'UV + deep 6 without COSMOS/', 'UV + deep 6 without COSMOS', True)
+Table A1, A2
+'''
