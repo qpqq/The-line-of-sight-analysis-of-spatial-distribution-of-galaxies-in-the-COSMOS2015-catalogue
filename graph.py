@@ -7,6 +7,9 @@ from data_processing import data_hist
 from mpl_toolkits.axes_grid1.axes_divider import HBoxDivider
 
 
+frac = 2 / 3
+
+
 def app_graph(data, func, dz, w, save=False, path=None):
     print(f'dz={dz}, w>{w}')
 
@@ -25,19 +28,19 @@ def app_graph(data, func, dz, w, save=False, path=None):
 
     x0 = np.linspace(x[0], x[-1], 1000)
 
-    fig, ax = plt.subplots(figsize=(12.8, 7.2))
+    fig, ax = plt.subplots(figsize=(12.8 * frac, 7.2 * frac))
     ax.scatter(x, y, s=10, c=[[1, 0, 1] for i in x])
     ax.plot(x, y)
 
-    label1 = r'$\mathrm{' + str(int(c1)) + 'x^{' + a1 + '}e^{-' + b1 + 'x}}$'
+    label1 = r'$\mathrm{' + str(int(c1)) + 'z^{' + a1 + '}e^{-' + b1 + 'z}}$'
     label1 += ', ' + '%.3e' % s1
     ax.plot(x0, ap.f(x0, par1, 1), color='orange', linestyle='--', linewidth=0.8, label=label1)
 
-    label2 = r'$\mathrm{' + str(int(c2)) + 'x^{' + a2 + r'}e^{\left(-\frac{x}{' + z2 + r'}\right)^{' + b2 + '}}}$'
+    label2 = r'$\mathrm{' + str(int(c2)) + 'z^{' + a2 + r'}e^{\left(-\frac{z}{' + z2 + r'}\right)^{' + b2 + '}}}$'
     label2 += ', ' + '%.3e' % s2
     ax.plot(x0, ap.f(x0, par2, 2), color='limegreen', linestyle='--', linewidth=0.8, label=label2)
 
-    label3 = r'$\mathrm{' + str(int(c3)) + r'\left(\frac{x^{' + a3 + '}+x^{' + a3 + r'\cdot' + b3 + '}}{x^{' + b3 + \
+    label3 = r'$\mathrm{' + str(int(c3)) + r'\left(\frac{z^{' + a3 + '}+z^{' + a3 + r'\cdot' + b3 + '}}{z^{' + b3 + \
              '}+' + d3 + r'}\right)}$'
     label3 += ', ' + '%.3e' % s3
     ax.plot(x0, ap.f(x0, par3, 3), color='orangered', linestyle='--', linewidth=0.8, label=label3)
@@ -56,6 +59,10 @@ def app_graph(data, func, dz, w, save=False, path=None):
                   fontsize='x-large')
 
     ax.legend(fontsize='x-large')
+
+    # if the legend is superimposed on the graph
+    # ax.legend(fontsize='x-large', loc='lower left', bbox_to_anchor=(0.05, 0))
+
     ax.tick_params(labelsize='x-large')
 
     if save:
@@ -99,23 +106,23 @@ def fluct_graph(data, func, dz, w, save=False, path=None):
     p = ['{:.0f}'.format(k) for k in [c1, c2, c3]]
     c1, c2, c3 = p
 
-    ig, ax = plt.subplots(figsize=(12.8, 7.2))
+    ig, ax = plt.subplots(figsize=(12.8 * frac, 7.2 * frac))
 
     # label_sigma = r'$5\sigma$'
 
-    label1 = r'$\mathrm{' + c1 + 'x^{' + a1 + '}e^{-' + b1 + 'x}}$'
+    label1 = r'$\mathrm{' + c1 + 'z^{' + a1 + '}e^{-' + b1 + 'z}}$'
     label1 += ', ' + '%.3e' % s1
     ax.plot(x, (y - y_app(xb, par1, 1)) / y_app(xb, par1, 1), color='orange', linewidth=0.9, label=label1)
     ax.plot(x, 5 / np.sqrt(y_app(xb, par1, 1)), color='orange', linestyle='--', linewidth=0.5)
     ax.plot(x, -5 / np.sqrt(y_app(xb, par1, 1)), color='orange', linestyle='--', linewidth=0.5)
 
-    label2 = r'$\mathrm{' + c2 + 'x^{' + a2 + r'}e^{\left(-\frac{x}{' + z2 + r'}\right)^{' + b2 + '}}}$'
+    label2 = r'$\mathrm{' + c2 + 'z^{' + a2 + r'}e^{\left(-\frac{z}{' + z2 + r'}\right)^{' + b2 + '}}}$'
     label2 += ', ' + '%.3e' % s2
     ax.plot(x, (y - y_app(xb, par2, 2)) / y_app(xb, par2, 2), color='limegreen', linewidth=0.9, label=label2)
     ax.plot(x, 5 / np.sqrt(y_app(xb, par2, 2)), color='limegreen', linestyle='--', linewidth=0.5)
     ax.plot(x, -5 / np.sqrt(y_app(xb, par2, 2)), color='limegreen', linestyle='--', linewidth=0.5)
 
-    label3 = r'$\mathrm{' + c3 + r'\left(\frac{x^{' + a3 + '}+x^{' + a3 + r'\cdot' + b3 + '}}{x^{' + b3 + '}+' + d3 + \
+    label3 = r'$\mathrm{' + c3 + r'\left(\frac{z^{' + a3 + '}+z^{' + a3 + r'\cdot' + b3 + '}}{z^{' + b3 + '}+' + d3 + \
              r'}\right)}$'
     label3 += ', ' + '%.3e' % s3
     ax.plot(x, (y - y_app(xb, par3, 3)) / y_app(xb, par3, 3), color='orangered', linewidth=0.9, label=label3)
@@ -132,10 +139,17 @@ def fluct_graph(data, func, dz, w, save=False, path=None):
 
     ax.set_xlabel('z', fontsize='x-large')
     ax.xaxis.set_label_coords(1.01, 0.516)
-    ax.set_ylabel(r'$\mathrm{\delta=\frac{\Delta N_{obs} - \Delta N_{approx}}{\Delta N_{approx}}}$',
-                  fontsize='xx-large')
+
+    # if the name of the x axis is superimposed on numbers
+    if frac < 1:
+        ax.set_ylabel(r'$\mathrm{\delta=\frac{\Delta N_{obs} - \Delta N_{approx}}{\Delta N_{approx}}}$',
+                      fontsize='xx-large', labelpad=-10)
+    else:
+        ax.set_ylabel(r'$\mathrm{\delta=\frac{\Delta N_{obs} - \Delta N_{approx}}{\Delta N_{approx}}}$',
+                      fontsize='xx-large')
 
     ax.set_xlim(0)
+    # ax.set_ylim(0, 1.3)  # if the legend is superimposed on the graph
 
     if float(w) > 0.8:
         ax.set_ylim(-1.05, 1.05)
@@ -192,7 +206,7 @@ def w_hists(dz, w, integral=False, save=False, path=None, file=None):
 
         x.append(xx)
 
-    fig, ax = plt.subplots(figsize=(12.8, 7.2))
+    fig, ax = plt.subplots(figsize=(12.8 * frac, 7.2 * frac))
 
     if w[0] == -100:
         label = 'all w, N={:d}'.format(y_sum[0])
@@ -232,7 +246,7 @@ def w_hists(dz, w, integral=False, save=False, path=None, file=None):
 
 def r_hists(dr, w, save=False, path=None):
     from data_processing import distance
-    from data_processing import z_med_pdz
+    from data_processing import z_final
     from distance import r_comoving
 
     print('dr=' + str(dr))
@@ -240,13 +254,13 @@ def r_hists(dr, w, save=False, path=None):
     x = []
     y = []
     for wi in w:
-        # data = distance(w=wi)
-        data = [r_comoving(i) for i in z_med_pdz(w=wi)]
+        data = distance(w=wi)
+        # data = [r_comoving(i) for i in z_med_pdz(w=wi)]
         xx, yy = data_hist(data, dr)
         x.append(xx)
         y.append(yy)
 
-    fig, ax = plt.subplots(figsize=(12.8, 7.2))
+    fig, ax = plt.subplots(figsize=(12.8 * frac, 7.2 * frac))
 
     if w[0] == -100:
         label = 'all w, N={:d}'.format(sum(y[0]))
@@ -393,8 +407,9 @@ def make_heights_equal(fig, rect, ax1, ax2, pad):
 
 def density_plot(ra_dec_data, density_data, max_density, n_ra, n_dec, p, title=None, save=False, path=''):
     from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+    from matplotlib.ticker import FormatStrFormatter
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.8, 7.2))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.8 * frac, 7.2 * frac))
 
     x = ra_dec_data[0]
     y = ra_dec_data[1]
@@ -424,7 +439,12 @@ def density_plot(ra_dec_data, density_data, max_density, n_ra, n_dec, p, title=N
 
     make_heights_equal(fig, 111, ax1, ax2, pad=0.75)
 
-    axins2 = inset_axes(ax2, width="5%", height="100%", loc='right', borderpad=-2.3)
+    axins2 = inset_axes(ax2, width="5%", height="100%", loc='right', borderpad=-2.3 * frac)
+
+    # if the numbers on the x-axis are superimposed on each other
+    if frac < 1:
+        ax1.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+
     cbar = fig.colorbar(im, cax=axins2)
     cbar.ax.tick_params(labelsize='large')
 
@@ -461,4 +481,73 @@ def z_vs_z(z1, sigma1, z2, sigma2):
     plt.show()
     filename = 'med vs final logit'
     # plt.savefig(filename, dpi=150)
+    plt.close()
+
+
+def app_graph_r(data, dr, w, save=False, path=None):
+    print(f'dz={dr}, w>{w}')
+
+    x, y = data_hist(data, dr, bi='center')
+
+    # par1, s1 = ap.fast(x, y, 1)
+    # par2, s2 = ap.fast(x, y, 2)
+    par3, s3 = ap.fast(x, y, 3)
+
+    # a1, b1, c1 = par1
+    # a2, b2, z2, c2 = par2
+    a3, b3, d3, c3 = par3
+
+    # p = ['{:.2f}'.format(k) for k in [a3, b3]]
+    # a3, b3 = p
+    # d3 = f'{d3:.0e}'
+    # c3 = f'{c3:.0e}'
+
+    x0 = np.linspace(x[0], x[-1], 1000)
+
+    fig, ax = plt.subplots(figsize=(12.8 * frac, 7.2 * frac))
+    ax.scatter(x, y, s=10, c=[[1, 0, 1] for i in x])
+    ax.plot(x, y)
+
+    # label1 = r'$\mathrm{' + str(int(c1)) + 'z^{' + a1 + '}e^{-' + b1 + 'z}}$'
+    # label1 += ', ' + '%.3e' % s1
+    # ax.plot(x0, ap.f(x0, par1, 1), color='orange', linestyle='--', linewidth=0.8, label=label1)
+
+    # label2 = r'$\mathrm{' + str(int(c2)) + 'z^{' + a2 + r'}e^{\left(-\frac{z}{' + z2 + r'}\right)^{' + b2 + '}}}$'
+    # label2 += ', ' + '%.3e' % s2
+    # ax.plot(x0, ap.f(x0, par2, 2), color='limegreen', linestyle='--', linewidth=0.8, label=label2)
+
+    # label3 = r'$\mathrm{' + c3 + r'\left(\frac{R^{' + a3 + '}+R^{' + a3 + r'\cdot' + b3 + '}}{R^{' + b3 + \
+    #          '}+' + d3 + r'}\right)}$'
+    # label3 += ', ' + '%.3e' % s3
+    ax.plot(x0, ap.f(x0, par3, 3), color='orangered', linestyle='--', linewidth=0.8)
+
+    ax.set_xlabel('R', fontsize='x-large')
+    ax.set_ylabel(r'$\mathrm{\Delta N(R,\Delta R)}$', fontsize='x-large')
+
+    ax.set_xlim(0)
+    ax.set_ylim(0)
+
+    if w == -100:
+        plt.title('Approximations with dR={}, all w, N={:d}'.format(str(dr), sum(y)),
+                  fontsize='x-large')
+    else:
+        plt.title('Approximations with dR={}, w>{}, N={:d}'.format(str(dr), str(w), sum(y)),
+                  fontsize='x-large')
+
+    # ax.legend(fontsize='x-large')
+
+    # if the legend is superimposed on the graph
+    # ax.legend(fontsize='x-large', loc='lower left', bbox_to_anchor=(0.05, 0))
+
+    ax.tick_params(labelsize='x-large')
+
+    if save:
+        if path is not None:
+            filename = path + 'dR={:.3f}.png'.format(dr)
+        else:
+            filename = 'dR={:.3f}.png'.format(dr)
+        plt.savefig(filename, dpi=150)
+    else:
+        plt.show()
+
     plt.close()

@@ -254,7 +254,7 @@ def sigma_pl_func(z, c):
 
     data_full = data + data_cont
     x_mid_full = list(np.around(x_mid + x_mid_cont, 2))
-    #
+
     # t = {'sigma pl': data_full}
     # table = pd.DataFrame(t, index=x_mid_full)
     # table.index.name = 'z'
@@ -297,8 +297,10 @@ def my_main(z, delta, integrals):
         z_mid[j] = (z_finish[j] + z_start[j]) / 2
         z_err[j] = z_mid[j] - z_start[j]
         r_com[j] = di.r_comoving(z_finish[j]) - di.r_comoving(z_start[j])
-        start_err_com[j] = di.r_comoving(z_start[j] + dz) - di.r_comoving(z_start[j] - dz)
-        finish_err_com[j] = di.r_comoving(z_finish[j] + dz) - di.r_comoving(z_finish[j] - dz)
+        # start_err_com[j] = (di.r_comoving(z_start[j] + dz) - di.r_comoving(z_start[j] - dz))
+        # finish_err_com[j] = (di.r_comoving(z_finish[j] + dz) - di.r_comoving(z_finish[j] - dz))
+        start_err_com[j] = (di.r_comoving(z_start[j] + dz) - di.r_comoving(z_start[j] - dz)) / 2
+        finish_err_com[j] = (di.r_comoving(z_finish[j] + dz) - di.r_comoving(z_finish[j] - dz)) / 2
         sigma_poisson[j] = np.sqrt(1 / sigma_poisson[j])
         sigma_obs[j] = sigma_obs[j] / n[j]
         sigma_dm[j] = sigma_dm[j] / n[j]
@@ -315,7 +317,9 @@ def my_main(z, delta, integrals):
         i_finish = list(z).index(z_finish[j])
         for k in range(i_start, i_finish + 1):
             sigma_obs_err[j] += (delta[k] - sigma_obs[j]) ** 2
-        sigma_obs_err[j] = np.sqrt(sigma_obs_err[j] / (n[j] - 1)) / np.sqrt(n[j])  #the calculating for standard error of the means
+        sigma_obs_err[j] = np.sqrt(sigma_obs_err[j] / (n[j] - 1) / n[j])  # the calculating for standard error of the means
+
+        sigma_obs[j] = abs(sigma_obs[j])
 
     sgn = []
     i = 0
@@ -446,20 +450,24 @@ def structures(data, dz, kind, save=False, path=None):
         sigma_sigma_obs += (t['sigma obs'][i] - t['sigma obs'][-1]) ** 2
         sigma_sigma_b_dm += (t['b dm'][i] - t['b dm'][-1]) ** 2
         sigma_sigma_b_pl += (t['b pl'][i] - t['b pl'][-1]) ** 2
-        t['sigma b dm'].append(t['b dm'][i] * t['sigma obs err'][i] / abs(t['sigma obs'][i]))
-        t['sigma b pl'].append(t['b pl'][i] * t['sigma obs err'][i] / abs(t['sigma obs'][i]))
+        t['sigma b dm'].append(t['b dm'][i] * t['sigma obs err'][i] / t['sigma obs'][i])
+        t['sigma b pl'].append(t['b pl'][i] * t['sigma obs err'][i] / t['sigma obs'][i])
 
     r_sigma /= j[-1] - 1
     sigma_sigma_obs /= j[-1] - 1
     sigma_sigma_b_dm /= j[-1] - 1
     sigma_sigma_b_pl /= j[-1] - 1
 
-    r_st_err_mean = np.sqrt((sum(t['st err com']) / j[-1]) ** 2 + r_sigma) / np.sqrt(j[-1])       #the calculating for standard error of the means
-    r_fin_err_mean = np.sqrt((sum(t['fin err com']) / j[-1]) ** 2 + r_sigma) / np.sqrt(j[-1])     #the calculating for standard error of the means
-    sigma_obs_err_mean = np.sqrt(t['sigma Poisson'][-1] ** 2 + sigma_sigma_obs) / np.sqrt(j[-1])  #the calculating for standard error of the means
+    r_st_err_mean = np.sqrt((sum(t['st err com']) ** 2 / (j[-1] - 1) + r_sigma) / j[-1])  # the calculating for standard error of the means
+    r_fin_err_mean = np.sqrt((sum(t['fin err com']) ** 2 / (j[-1] - 1) + r_sigma) / j[-1])  # the calculating for standard error of the means
+    sigma_obs_err_mean = np.sqrt((t['sigma Poisson'][-1] ** 2 + sigma_sigma_obs) / j[-1])  # the calculating for standard error of the means
 
-    sigma_sigma_b_dm /= j[-1]  #the calculating for standard error of the means
-    sigma_sigma_b_pl /= j[-1]  #the calculating for standard error of the means
+    # r_st_err_mean = np.sqrt((sum(t['st err com']) / j[-1]) ** 2 + r_sigma) / np.sqrt(j[-1])       # the calculating for standard error of the means
+    # r_fin_err_mean = np.sqrt((sum(t['fin err com']) / j[-1]) ** 2 + r_sigma) / np.sqrt(j[-1])     # the calculating for standard error of the means
+    # sigma_obs_err_mean = np.sqrt(t['sigma Poisson'][-1] ** 2 + sigma_sigma_obs) / np.sqrt(j[-1])  # the calculating for standard error of the means
+
+    sigma_sigma_b_dm /= j[-1]  # the calculating for standard error of the means
+    sigma_sigma_b_pl /= j[-1]  # the calculating for standard error of the means
 
     t['r comoving'] = [int(i) for i in t['r comoving'] + [r_mean]]
     t['st err com'] = [int(i) for i in t['st err com'] + [r_st_err_mean]]

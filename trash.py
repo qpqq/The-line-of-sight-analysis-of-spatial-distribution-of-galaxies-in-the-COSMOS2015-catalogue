@@ -7,7 +7,7 @@ from astropy.io import fits, ascii
 from astropy.table import Table, QTable
 from data_processing import z_final, z_med_pdz, z_min_chi2, data_hist, ra_dec, density_plot_data
 from distance import r_comoving as rc
-from graph import app_graph, fluct_graph, w_hists, r_hists, density_plot, z_vs_z
+from graph import app_graph, app_graph_r,fluct_graph, w_hists, r_hists, density_plot, z_vs_z
 from PIL import Image
 
 
@@ -765,13 +765,46 @@ def slices(start, finish, delta, step, p, w, norm, path=None):
 # slices(1, 2, delta=0.2, step=0.05, w=0.9, p=2, norm=False)
 # density_plot_data(2, 3, delta=0.1, step=0.02, w=0.9, n=50)
 
-'''
-main([0.1], [-100, 0.7, 0.9, 0.97], 'structures', '123/')
-Table 2, 3
 
-main([0.1], [-100], 'structures', 'COSMOS 3 without others/', 'COSMOS 3 without others', True)
-main([0.1], [-100], 'structures', 'COSMOS 6 without others/', 'COSMOS 6 without others', True)
-main([0.1], [-100], 'structures', 'UV + deep 3 without COSMOS/', 'UV + deep 3 without COSMOS', True)
-main([0.1], [-100], 'structures', 'UV + deep 6 without COSMOS/', 'UV + deep 6 without COSMOS', True)
-Table A1, A2
-'''
+# Figure 1
+# slices(1, 1.2, delta=0.2, step=0.05, w=0.9, p=2, norm=False)
+
+# Figure 2
+# main([0.1], [-100], 'approx', path='fraction experiments ')  # left
+# main([0.1], [-100], 'fluctuations', path='fraction experiments ')  # right
+
+# Figure 3
+# w_hists(0.03, [-100, 0.7, 0.9, 0.97], save=True)  # left
+# r_hists(50, [-100, 0.7, 0.9, 0.97], save=True)  # right
+
+# Figure 4
+# main([0.1], [0.7], 'approx', path='fraction experiments ')  # top left
+# main([0.1], [0.9], 'approx', path='fraction experiments ')  # bottom left
+# main([0.1], [0.7], 'fluctuations', path='fraction experiments ')  # top right
+# main([0.1], [0.9], 'fluctuations', path='fraction experiments ')  # bottom right
+
+# Figure A1
+# main([0.1], [-100], 'approx', path='fraction experiments COSMOS 3 without others ', file='COSMOS 3 without others', corr=True)  # top left
+# main([0.1], [-100], 'approx', path='fraction experiments UV + deep 3 without COSMOS ', file='UV + deep 3 without COSMOS', corr=True)  # bottom left
+# main([0.1], [-100], 'fluctuations', path='fraction experiments COSMOS 3 without others ', file='COSMOS 3 without others', corr=True)  # top right
+# main([0.1], [-100], 'fluctuations', path='fraction experiments UV + deep 3 without COSMOS ', file='UV + deep 3 without COSMOS', corr=True)  # bottom right
+
+# Figure A2
+# main([0.1], [-100], 'approx', path='fraction experiments COSMOS 6 without others ', file='COSMOS 6 without others', corr=True)  # top left
+# main([0.1], [-100], 'approx', path='fraction experiments UV + deep 6 without COSMOS ', file='UV + deep 6 without COSMOS', corr=True)  # bottom left
+# main([0.1], [-100], 'fluctuations', path='fraction experiments COSMOS 6 without others ', file='COSMOS 6 without others', corr=True)  # top right
+# main([0.1], [-100], 'fluctuations', path='fraction experiments UV + deep 6 without COSMOS ', file='UV + deep 6 without COSMOS', corr=True)  # bottom right
+
+# Figure A3
+data = Table.read('UV + deep 6 without COSMOS r.csv', format='ascii.csv')['R']
+data = sorted(data)
+app_graph_r(data, 200, -100, save=True)
+
+# Table 2, 3
+# main([0.1], [-100, 0.7, 0.9, 0.97], 'structures', '123/')
+
+# Table A1, A2
+# main([0.1], [-100], 'structures', 'COSMOS 3 without others/', 'COSMOS 3 without others', True)
+# main([0.1], [-100], 'structures', 'COSMOS 6 without others/', 'COSMOS 6 without others', True)
+# main([0.1], [-100], 'structures', 'UV + deep 3 without COSMOS/', 'UV + deep 3 without COSMOS', True)
+# main([0.1], [-100], 'structures', 'UV + deep 6 without COSMOS/', 'UV + deep 6 without COSMOS', True)
