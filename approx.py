@@ -1,3 +1,8 @@
+"""
+Fractal Dimension Estimation
+© Stanislav Shirokov, 2014-2020
+"""
+
 from scipy import integrate
 from scipy.optimize import leastsq
 from math import exp, log10

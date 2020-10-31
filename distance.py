@@ -1,3 +1,8 @@
+"""
+Fractal Dimension Estimation
+© Stanislav Shirokov, 2014-2020
+"""
+
 from math import sqrt
 from scipy import integrate
 

@@ -1,3 +1,8 @@
+"""
+Fractal Dimension Estimation
+© Stanislav Shirokov, 2014-2020
+"""
+
 import pandas as pd
 import numpy as np
 import approx as ap

@@ -1,3 +1,8 @@
+"""
+Fractal Dimension Estimation
+© Stanislav Shirokov, 2014-2020
+"""
+
 import approx as ap
 import numpy as np
 import matplotlib.pyplot as plt
@@ -149,7 +154,6 @@ def fluct_graph(data, func, dz, w, save=False, path=None):
                       fontsize='xx-large')
 
     ax.set_xlim(0)
-    # ax.set_ylim(0, 1.3)  # if the legend is superimposed on the graph
 
     if float(w) > 0.8:
         ax.set_ylim(-1.05, 1.05)
@@ -166,6 +170,10 @@ def fluct_graph(data, func, dz, w, save=False, path=None):
                   fontsize='x-large')
 
     ax.legend(fontsize='x-large')
+
+    # if the legend is superimposed on the graph
+    # ax.legend(fontsize='x-large', loc='lower left', bbox_to_anchor=(0.02, 0))
+    # ax.set_ylim(-1.6, 1.6)
 
     if save:
         if path is not None:

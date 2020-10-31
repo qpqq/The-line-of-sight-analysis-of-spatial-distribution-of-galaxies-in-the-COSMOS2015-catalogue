@@ -1,3 +1,8 @@
+"""
+Fractal Dimension Estimation
+© Stanislav Shirokov, 2014-2020
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -7,7 +12,7 @@ from astropy.io import fits, ascii
 from astropy.table import Table, QTable
 from data_processing import z_final, z_med_pdz, z_min_chi2, data_hist, ra_dec, density_plot_data
 from distance import r_comoving as rc
-from graph import app_graph, app_graph_r,fluct_graph, w_hists, r_hists, density_plot, z_vs_z
+from graph import app_graph, app_graph_r, fluct_graph, w_hists, r_hists, density_plot, z_vs_z
 from PIL import Image
 
 
@@ -796,9 +801,9 @@ def slices(start, finish, delta, step, p, w, norm, path=None):
 # main([0.1], [-100], 'fluctuations', path='fraction experiments UV + deep 6 without COSMOS ', file='UV + deep 6 without COSMOS', corr=True)  # bottom right
 
 # Figure A3
-data = Table.read('UV + deep 6 without COSMOS r.csv', format='ascii.csv')['R']
-data = sorted(data)
-app_graph_r(data, 200, -100, save=True)
+# data = Table.read('UV + deep 6 without COSMOS r.csv', format='ascii.csv')['R']
+# data = sorted(data)
+# app_graph_r(data, 200, -100, save=True)
 
 # Table 2, 3
 # main([0.1], [-100, 0.7, 0.9, 0.97], 'structures', '123/')

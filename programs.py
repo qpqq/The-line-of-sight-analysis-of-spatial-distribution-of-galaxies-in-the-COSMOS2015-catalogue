@@ -1,3 +1,8 @@
+"""
+Fractal Dimension Estimation
+© Stanislav Shirokov, 2014-2020
+"""
+
 def vs():
     import math
     from data_processing import z_final, z_min_chi2
